@@ -9,7 +9,7 @@ router.get('/', (req,res)=>{
       res.send(result)
     })
     .catch((err)=>{
-      console.log(err)
+      res.status(500).send({ "message": "Server Error" })
     })
 })
 
@@ -27,7 +27,7 @@ router.get('/:id', (req,res)=>{
       res.send(user)
     })
     .catch((err)=>{
-      console.log(err)
+      res.status(500).send({ "message": "Server Error" })
     })
 })
 
