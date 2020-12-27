@@ -6,7 +6,8 @@ router.get('/', (req,res)=>{
   const filePath = path.join(__dirname,'../','data', 'users.json');
   fsPromises.readFile(filePath, {encoding:'utf-8'})
     .then((result)=>{
-      res.send(result)
+      const users = JSON.parse(result);
+      res.send(users)
     })
     .catch((err)=>{
       res.status(500).send({ "message": "Server Error" })
