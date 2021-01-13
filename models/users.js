@@ -11,16 +11,18 @@ const userScehma = new mongoose.Schema({
     type: String,
     required: true,
     minlength: 2,
-    maxlength: 30
+    maxlength: 30,
   },
   avatar: {
     type: String,
-    required:true,
-    validate:{
-      validator(v){
-        return !/https?\:\/\/[www\.]?[\w\-\.\_\~\:\/\?\#\[\]\@\!\$\&\'\(\)\*\+\,\;\=]*#?/.test(v)
+    required: true,
+    validate: {
+      validator(v) {
+        return !/https?\:\/\/[www\.]?[\w\-\.\_\~\:\/\?\#\[\]\@\!\$\&\'\(\)\*\+\,\;\=]*#?/.test(v);
       },
-      messege:"link error!",
+      messege: "link error!",
+    },
   },
-  }
 });
+
+module.exports = mongoose.model("user", userScehma);
