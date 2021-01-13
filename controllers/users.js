@@ -1,4 +1,8 @@
-module.exports.getUsers = (req, res) => {
+const path = require("path");
+const fsPromises = require("fs").promises;
+const User = require("../models/users");
+
+const getUsers = (req, res) => {
   const filePath = path.join(__dirname, "../", "data", "users.json");
   fsPromises
     .readFile(filePath, { encoding: "utf-8" })
@@ -10,7 +14,7 @@ module.exports.getUsers = (req, res) => {
       res.status(500).send({ message: "Server Error" });
     });
 };
-module.exports.getUser = (req, res) => {
+const getUser = (req, res) => {
   const { id } = req.params;
   const filePath = path.join(__dirname, "../", "data", "users.json");
   fsPromises
@@ -27,4 +31,17 @@ module.exports.getUser = (req, res) => {
     .catch((err) => {
       res.status(500).send({ message: "Server Error" });
     });
-}
+};
+
+const createUser = (req, res) => {
+  const {name, about, avatar } = req.body;
+  User.create({ name, about, avatar})
+    .then((user) => res.send({data:user}))
+    .catch((err) => res.status(500).send({messege:`${err}`}))
+};
+
+module.exports = {
+  getUsers,
+  getUser,
+  createUser,
+};
