@@ -3,22 +3,38 @@ const User = require("../models/users");
 const getUsers = (req, res) => {
   User.find({})
     .then((users) => res.status(200).send({ data: users }))
-    .catch((err) => res.status(500).send({ messege: `${err}` }));
+    .catch((err) => res.status(500).send({ messege: `${err.messege}` }));
 };
 const getUser = (req, res) => {
   const { id } = req.params;
   User.findById(id)
-    .then((user) => res.status(200).send({ data: user }))
-    .catch((err) =>
-      res.status(500).send({ messege: "Пользователь не найден!" })
-    );
+    .then((user) => {
+      if (!user) {
+        return res.ststus(404).send({ messege: `${err.messege}` });
+      } else {
+        res.status(200).send({ data: user });
+      }
+    })
+    .catch((err) => {
+      if (err.name === "CastError") {
+        res.status(400).send({ messege: `${err.messege}` });
+      } else {
+        res.status(500).send({ messege: `${err.messege}` });
+      }
+    });
 };
 
 const createUser = (req, res) => {
   const { name, about, avatar } = req.body;
   User.create({ name, about, avatar })
     .then((user) => res.status(201).send({ data: user }))
-    .catch((err) => res.status(500).send({ messege: `${err}` }));
+    .catch((err) => {
+      if(!name && !about && !avatar){
+        res.status(500).send({ messege: `${err.messege}` })
+      }else{
+        res.status(404).send({ messege: `${err.messege}` })
+      }
+    });
 };
 
 const updateUserProfile = (req, res) => {
@@ -33,8 +49,20 @@ const updateUserProfile = (req, res) => {
       upsert: true,
     }
   )
-    .then((user) => res.status(200).send({ data: user }))
-    .catch((err) => res.status(500).send({ messege: `${err}` }));
+    .then((user) => {
+      if (!user) {
+        return res.ststus(404).send({ messege: `${err.messege}` });
+      } else {
+        return res.status(200).send({ data: user });
+      }
+    })
+    .catch((err) => {
+      if (err.name === "CastError") {
+        res.status(400).send({ messege: `${err.messege}` });
+      } else {
+        res.status(500).send({ messege: `${err.messege}` });
+      }
+    });
 };
 
 const updateUserAvatar = (req, res) => {
@@ -49,8 +77,20 @@ const updateUserAvatar = (req, res) => {
       upsert: true,
     }
   )
-    .then((user) => res.status(200).send({ data: user }))
-    .catch((err) => res.status(500).send({ messege: `${err}` }));
+    .then((user) => {
+      if (!user) {
+        return res.ststus(404).send({ messege: `${err.messege}` });
+      } else {
+        return res.status(200).send({ data: user });
+      }
+    })
+    .catch((err) => {
+      if (err.name === "CastError") {
+        res.status(400).send({ messege: `${err.messege}` });
+      } else {
+        res.status(500).send({ messege: `${err.messege}` });
+      }
+    });
 };
 
 module.exports = {
