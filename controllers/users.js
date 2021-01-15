@@ -63,14 +63,12 @@ const updateUserProfile = (req, res) => {
       } else {
         res.status(500).send({ messege: `${err.messege}` });
       }
-    })
-    .catch((err) => {
       if (err.name === "ValidationError") {
         res.status(400).send({ messege: `${err.messege}` });
       } else {
         res.status(500).send({ messege: `${err.messege}` });
       }
-    });
+    })
 };
 
 const updateUserAvatar = (req, res) => {
@@ -98,14 +96,12 @@ const updateUserAvatar = (req, res) => {
       } else {
         res.status(500).send({ messege: `${err.messege}` });
       }
-    })
-    .catch((err) => {
       if (err.name === "ValidationError") {
         res.status(400).send({ messege: `${err.messege}` });
       } else {
         res.status(500).send({ messege: `${err.messege}` });
       }
-    });
+    })
 };
 
 module.exports = {
