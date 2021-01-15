@@ -10,7 +10,7 @@ const getUser = (req, res) => {
   User.findById(id)
     .then((user) => {
       if (!user) {
-        return res.ststus(404).send({ messege: `${err.messege}` });
+        return res.ststus(404).send({ messege: "Пользователь не найден!" });
       } else {
         res.status(200).send({ data: user });
       }
@@ -29,10 +29,10 @@ const createUser = (req, res) => {
   User.create({ name, about, avatar })
     .then((user) => res.status(201).send({ data: user }))
     .catch((err) => {
-      if(!name && !about && !avatar){
-        res.status(500).send({ messege: `${err.messege}` })
-      }else{
-        res.status(404).send({ messege: `${err.messege}` })
+      if (err.name === "ValidationError") {
+        res.status(400).send({ messege: `${err.messege}` });
+      } else {
+        res.status(500).send({ messege: `${err.messege}` });
       }
     });
 };
@@ -62,6 +62,13 @@ const updateUserProfile = (req, res) => {
       } else {
         res.status(500).send({ messege: `${err.messege}` });
       }
+    })
+    .catch((err) => {
+      if (err.name === "ValidationError") {
+        res.status(400).send({ messege: `${err.messege}` });
+      } else {
+        res.status(500).send({ messege: `${err.messege}` });
+      }
     });
 };
 
@@ -86,6 +93,13 @@ const updateUserAvatar = (req, res) => {
     })
     .catch((err) => {
       if (err.name === "CastError") {
+        res.status(400).send({ messege: `${err.messege}` });
+      } else {
+        res.status(500).send({ messege: `${err.messege}` });
+      }
+    })
+    .catch((err) => {
+      if (err.name === "ValidationError") {
         res.status(400).send({ messege: `${err.messege}` });
       } else {
         res.status(500).send({ messege: `${err.messege}` });

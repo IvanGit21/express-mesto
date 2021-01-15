@@ -12,10 +12,10 @@ const createCard = (req, res) => {
   Card.create({ name, link, owner: id })
     .then((card) => res.status(201).send({ data: card }))
     .catch((err) => {
-      if(!name && !link){
-        res.status(500).send({ messege: `${err.messege}` })
-      }else{
-        res.status(404).send({ messege: `${err.messege}` })
+      if (err.name === "ValidationError") {
+        res.status(400).send({ messege: `${err.messege}` });
+      } else {
+        res.status(500).send({ messege: `${err.messege}` });
       }
     });
 };
@@ -24,7 +24,7 @@ const deleteCard = (req, res) => {
   Card.findByIdAndRemove(id)
     .then((card) => {
       if (!card) {
-        return res.ststus(404).send({ messege: `${err.messege}` });
+        return res.ststus(404).send({ messege: "Карточка не найдена!" });
       } else {
         return res.status(200).send({ data: card });
       }
@@ -46,7 +46,7 @@ const likeCard = (req, res) => {
   )
     .then((card) => {
       if (!card) {
-        return res.ststus(404).send({ messege: `${err.messege}` });
+        return res.ststus(404).send({ messege: "Карточка не найдена!" });
       } else {
         res.status(200).send({ data: card });
       }
@@ -68,9 +68,9 @@ const dislikeCard = (req, res) => {
   )
     .then((card) => {
       if (!card) {
-        return res.ststus(404).send({ messege: `${err.messege}` });
+        return res.ststus(404).send({ messege: "Карточка не найдена!" });
       } else {
-        return res.ststus(404).send({ messege: `${err.messege}` });
+        return res.ststus(500).send({ messege: `${err.messege}` });
       }
     })
     .catch((err) => {
