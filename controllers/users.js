@@ -1,6 +1,5 @@
 const User = require("../models/users");
 
-
 const getUsers = (req, res) => {
   User.find({})
     .then((users) => res.status(200).send({ data: users }))
@@ -60,15 +59,12 @@ const updateUserProfile = (req, res) => {
     .catch((err) => {
       if (err.name === "CastError") {
         res.status(400).send({ messege: `${err.messege}` });
-      } else {
-        res.status(500).send({ messege: `${err.messege}` });
-      }
-      if (err.name === "ValidationError") {
+      } else if (err.name === "ValidationError") {
         res.status(400).send({ messege: `${err.messege}` });
       } else {
         res.status(500).send({ messege: `${err.messege}` });
       }
-    })
+    });
 };
 
 const updateUserAvatar = (req, res) => {
@@ -93,15 +89,12 @@ const updateUserAvatar = (req, res) => {
     .catch((err) => {
       if (err.name === "CastError") {
         res.status(400).send({ messege: `${err.messege}` });
-      } else {
-        res.status(500).send({ messege: `${err.messege}` });
-      }
-      if (err.name === "ValidationError") {
+      } else if (err.name === "ValidationError") {
         res.status(400).send({ messege: `${err.messege}` });
       } else {
         res.status(500).send({ messege: `${err.messege}` });
       }
-    })
+    });
 };
 
 module.exports = {
